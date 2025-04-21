@@ -10,11 +10,34 @@ knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
 ```
 
-* Create a new file in the `data/` directory called "Preprocessing.Rmd". The remaining instructions in this section are to be completed in that file.
-* Write a function that will load a table from the IMDb files in the `data/` directory.
-  * The function should take the file name (without the ".csv.gz" portion) as an argument
-  * The function should load the appropriate `.csv.gz` file.
-  * Make sure that all "\\N" values (which IMDB uses to indicate missing values) are turned into proper NA values in R
-  * The function should return the table.
-* For each of the `.csv.gz` files, use your function to load the table, then save it into a variable (e.g. `name_basics <- preprocess("name_basics")`) and use the `write_rds` function (e.g., `write_rds(name_basics, "name_basics.rda")`.
-* Run the function on all of the `*_sample.csv.gz` files to created processed `.rda` files.
+-   Create a new file in the `data/` directory called "Preprocessing.Rmd". The remaining instructions in this section are to be completed in that file.
+-   Write a function that will load a table from the IMDb files in the `data/` directory.
+    -   The function should take the file name (without the ".csv.gz" portion) as an argument
+    -   The function should load the appropriate `.csv.gz` file.
+    -   Make sure that all "\\N" values (which IMDB uses to indicate missing values) are turned into proper NA values in R
+    -   The function should return the table.
+-   For each of the `.csv.gz` files, use your function to load the table, then save it into a variable (e.g. `name_basics <- preprocess("name_basics")`) and use the `write_rds` function (e.g., `write_rds(name_basics, "name_basics.rda")`.
+-   Run the function on all of the `*_sample.csv.gz` files to created processed `.rda` files.
+
+```{r}
+load_csv <- function(name) {
+  name <- paste0(name,".csv.gz")
+  read.csv(
+    name,
+    na.strings = "\\N"
+  )
+}
+```
+
+```{r}
+files <- c("name_basics_sample","title_basics_sample",
+           "title_principals_sample","title_ratings_sample")
+for (file in files) {
+  load_csv(file) |>
+    write_rds(
+      paste0(file,".rda")
+    )
+}
+```
+
+
