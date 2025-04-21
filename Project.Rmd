@@ -34,6 +34,51 @@ The [Internet Movie Database (IMDb)]() contains information on millions of movie
   * For each quantitative column, provide some summary statistics
   * For any character columns, decided if they are actually representing factors/categorical data with a moderate number of columns. If so report the distributions for these variables.
   * Provide a plot for each table. Across all of the plots, try to show off the most possible different ggplot features (`geoms_` functions, `stat_` functions, coordinate systems, facets, use of several variables, annotations)
+  
+```{r}
+# Load in tables
+# If this errors, make sure you run the code in data/Preprocessing.Rmd first
+name_basics <- read_rds("data/name_basics_sample.rda")
+title_basics <- read_rds("data/title_basics_sample.rda")
+title_principals <- read_rds("data/title_principals_sample.rda")
+title_ratings <- read_rds("data/title_ratings_sample.rda")
+```
+
+
+### Name Basics Sample
+
+Summary Statistics for quantitative columns
+```{r}
+name_basics |>
+  select(where(is.numeric)) |>
+  summary()
+```
+
+Character columns
+  - **nconst** - unique identifier, not factor
+  - **primaryName** - name of person, not factor
+  - **primaryProfession** - list of professions, can be split up and used as factor
+  - **knownForTitles** - looks like random identifiers, not factor
+
+```{r}
+# Distribution for primaryProfession
+name_basics |>
+  filter(!is.na(primaryProfession)) |>
+  pull(primaryProfession) |>
+  strsplit(",") |>
+  unlist() |>
+  table()
+```
+
+
+
+### Title Basics Sample
+
+### Title Ratings Sample
+
+### Title Principals Sample
+
+
 * For the `titles_basics` table
   * use two different variables to group and explore how `runtimeMinutes` varies for these different groups. Produce appropriate summaries.
   * How many titles are known for name that is different than the original release name?
