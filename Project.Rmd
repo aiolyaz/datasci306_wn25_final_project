@@ -12,7 +12,7 @@ library(tidyverse)
 
 ## Investigating the Internet Movie Database (IMDB)
 
-The [Internet Movie Database (IMDb)]() contains information on millions of movies and television programs. They offer several [non-commercial use datasets](https://developer.imdb.com/non-commercial-datasets/) (documentation link). For this project we will analyze a **sample** of 100,000 titles from the IMDBb. 
+<!-- The [Internet Movie Database (IMDb)]() contains information on millions of movies and television programs. They offer several [non-commercial use datasets](https://developer.imdb.com/non-commercial-datasets/) (documentation link). For this project we will analyze a **sample** of 100,000 titles from the IMDBb.  -->
 
 
 ## Part I: Preprocessing
@@ -79,6 +79,34 @@ name_basics |>
 ### Title Principals Sample
 
 
+```{r}
+title_principals |>
+  select(where(is.numeric)) |>
+  summary()
+sapply(title_principals, n_distinct)
+unique(title_principals$category)
+```
+
+Columns:
+- `tconst` - Used similarly to a primary key, used to uniquely identify the title
+- `ordering` - an integer used to further identify more specific than just the title id from `tconst`
+- `nconst` - Used to uniquely identify a person
+- `category` - Only factor in this table, used to categorize their role in the title
+- `job` - Further specifies what their role was in the title
+- `characters` - Name of the character played in the title (if applicable)
+
+
+```{r}
+ggplot(title_principals, aes(x = category)) +
+  geom_bar() +
+  labs(title = "Number of people in each role category for titles in the IMDb", x = "Category", y = "Count") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1))
+
+```
+
+
+
 * For the `titles_basics` table
   * use two different variables to group and explore how `runtimeMinutes` varies for these different groups. Produce appropriate summaries.
   * How many titles are known for name that is different than the original release name?
@@ -90,7 +118,14 @@ name_basics |>
       * Group the data into living and deceased cast members. 
       * For deceased cast members, provide a graph that shows the distribution of ages.
       * Do the same for living cast members.
+
 * Find all the actors with first names "Tom", "Thomas", "Thom" or "Tomas". How many are there?
+
+```{r}
+
+
+```
+
 * How many titles use alliteration (i.e., all words in the title start with the same letter)?
 
 ## Part III: Pivoting
