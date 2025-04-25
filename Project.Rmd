@@ -122,8 +122,8 @@ ggplot(title_principals, aes(x = category)) +
 * Find all the actors with first names "Tom", "Thomas", "Thom" or "Tomas". How many are there?
 
 ```{r}
-
-
+capture_string = "(^Tom )|(^Thomas )|(^Thom )|(^Tomas )"
+filter(name_basics, str_detect(primaryName, capture_string))
 ```
 
 * How many titles use alliteration (i.e., all words in the title start with the same letter)?
