@@ -140,10 +140,30 @@ ggplot(title_principals, aes(x = category)) +
   * What is the highest rated genre? What is the lowest rated genre?
   * Using stacked bar charts, investigate the proportions of different genres over time. Are any incresing or decreasing? Use factor functions to help make the plots easier to read.
 * Join the `title_basics` with the ratings table. Have the number of ratings changed over time (based on release year)? Display graphically but also answer with numerical results.
+
+
+
 * Join the names with the ratings and the principals table. 
   * Group by individual people, find the top ten people based on the median rating of the titles they appear in.
   * Find the proportions of genres for the the titles that include the top 10 rated principals.
   * Graph ratings against years. What trends do you see?
+
+```{r}
+rate_principals = inner_join(title_principals, title_ratings, by = "tconst")
+top_principals = rate_principals |>
+  group_by(nconst) |>
+  summarize(median_rating = median(averageRating)) |>
+  arrange(desc(median_rating)) |>
+  head(10) |>
+  select(nconst)
+inner_join(top_principals, name_basics, by = "nconst") |>
+  select(primaryName)
+# This only does the first bullet point and the 2nd, need to find proportions and graph rating against years
+
+
+```
+
+
 * Create a table with one row for each person in the `name_basics` table and title they are known for. Join this to the ratings table to get the ratings of the "known for" films. Find the person (or people) who have the highest median known for rating.
 * 
 
