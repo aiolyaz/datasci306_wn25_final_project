@@ -146,8 +146,17 @@ filter(title_basics, str_detect(primaryTitle, capture_string2))
 * Join the table with one title-genre per row from the previous section with the ratings table.
   * What is the highest rated genre? What is the lowest rated genre?
   * Using stacked bar charts, investigate the proportions of different genres over time. Are any incresing or decreasing? Use factor functions to help make the plots easier to read.
+  
+  
 * Join the `title_basics` with the ratings table. Have the number of ratings changed over time (based on release year)? Display graphically but also answer with numerical results.
-
+```{r}
+basics_ratings = inner_join(title_basics, title_ratings, by = "tconst")
+rate_count_year = basics_ratings |>
+  filter(!is.na(numVotes) & !is.na(startYear)) |>
+  group_by(startYear) |>
+  summarize(total_votes = sum(numVotes))
+# Still need to plot and show numerical evidence
+```
 
 
 * Join the names with the ratings and the principals table. 
