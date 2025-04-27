@@ -78,7 +78,6 @@ name_basics |>
 
 ### Title Principals Sample
 
-
 ```{r}
 title_principals |>
   select(where(is.numeric)) |>
